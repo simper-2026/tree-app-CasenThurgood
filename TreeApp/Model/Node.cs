@@ -1,43 +1,46 @@
 using System;
+namespace TreeApp.Model;
 
 public class Node
 {
-    int Value { public get; private set; }
-    Node? Left { public get; public set; }
-    Node? Right { public get; public set; }
+    public int Value { get; private set; }
+    public Node? Left { get; set; }
+    public Node? Right { get; set; }
+    public int Depth;
+    public int Height;
 
 
-    public void Node(int Value, Node Left, Node Right)
+    public Node(int value, Node left, Node right, int depth)
     {
-        this.Value = Value;
-        this.Left = Left;
-        this.Right = Right;
+        Value = value;
+        Left = left;
+        Right = right;
+        Depth = depth;
     }
 
-    void InsertValue(int newValue) 
+    public void InsertValue(int newValue) 
     {
-        if newValue < this.Value
+        if (newValue < Value)
         {
-            if (this.Left == null)
+            if (Left == null)
             {
-                this.Left = new Node();
-                this.Left.Node(newValue, null, null);
+                Left = new Node(newValue, null, null, Depth+1);
             }
             else
             {
-                this.Left.InsertValue(newValue);
+                Left.InsertValue(newValue);
             }
         }
-        else if newValue > this.Value
+
+        else if (newValue > Value)
         {
-            if (this.Right == null)
+            if (Right == null)
             {
-                this.Right = new Node();
-                this.Right.Node(newValue, null, null);
+                Right = new Node(newValue, null, null, Depth+1);
             }
             else
             {
-                this.Right.InsertValue(newValue);
+                Right.InsertValue(newValue);
             }
         }
     }

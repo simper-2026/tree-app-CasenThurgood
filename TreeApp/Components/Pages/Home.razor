@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 
 @using MermaidJS.Blazor
+@using TreeApp.Model
 
 
 
@@ -16,7 +17,7 @@
     <MermaidDiagram Definition=@treediagram  />
 }
 
-@* <br /> <textarea readonly rows="10" cols="50">@treediagram</textarea> *@
+<br /> <textarea readonly rows="10" cols="50">@treediagram</textarea>
 
 @code {
 
@@ -53,6 +54,8 @@
         //postrender = true;
     }
 
+
+   
 
 
 }

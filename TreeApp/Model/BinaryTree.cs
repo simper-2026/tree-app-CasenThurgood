@@ -23,6 +23,7 @@ public class BinaryTree
 		else
 		{
 			root.InsertValue(value);
+			root = RebalanceTree(root);
 		}
 	}
 
@@ -47,6 +48,7 @@ public class BinaryTree
         return node.Height;
 
 	}
+
 	public string ToMermaid() 
 	{
         int links = 0;
@@ -108,4 +110,121 @@ public class BinaryTree
 
 		return result;
 	}
+
+	Node RebalanceTree(Node node)
+	{
+		if (node == null)
+		{
+			return null;
+		}
+
+		if (node.Left == null && node.Right == null) 
+		{
+			return node;
+		}
+		int leftHeight;
+
+		if (node.Left != null)
+		{
+			node.Left = RebalanceTree(node.Left);
+			leftHeight = node.Left.Height;
+		}
+		else 
+		{
+			leftHeight = -1;
+		}
+
+		int rightHeight;
+		if (node.Right != null)
+		{
+			node.Right = RebalanceTree(node.Right);
+			rightHeight = node.Right.Height;
+		}
+		else
+		{
+			rightHeight = -1;
+		}
+
+        if (leftHeight - rightHeight > 1) 
+		{
+			int leftRightHeight;
+			int leftLeftHeight;
+
+			if (node.Left.Left != null)
+			{
+				leftLeftHeight = node.Left.Left.Height;
+			}
+			else 
+			{
+				leftLeftHeight = -1;
+			}
+
+			if (node.Left.Right != null)
+			{
+				leftRightHeight = node.Left.Right.Height;
+			}
+			else 
+			{
+				leftRightHeight = -1;
+			}
+
+			if (leftRightHeight > leftLeftHeight)
+			{
+				node.Left = RotateLeft(node.Left);
+			}
+
+			return RotateRight(node);
+		}
+
+		if (rightHeight - leftHeight > 1) 
+		{
+            int rightLeftHeight;
+            int rightRightHeight;
+
+            if (node.Right.Left != null)
+            {
+                rightLeftHeight = node.Right.Left.Height;
+            }
+            else
+            {
+                rightLeftHeight = -1;
+            }
+
+            if (node.Right.Right != null)
+            {
+                rightRightHeight = node.Right.Right.Height;
+            }
+            else
+            {
+                rightRightHeight = -1;
+            }
+
+            if (rightLeftHeight > rightRightHeight)
+            {
+                node.Right = RotateRight(node.Right);
+            }
+
+            return RotateLeft(node);
+		}
+
+		return node;
+	}
+
+    Node RotateRight(Node node)
+    {
+        Node l = node.Left;
+        Node r = l.Right;
+        l.Right = node;
+        node.Left = r;
+        return l;
+    }
+
+    Node RotateLeft(Node node)
+    {
+        Node r = node.Right;
+        Node l = r.Left;
+        r.Left = node;
+        node.Right = l;
+        return r;
+    }
 }

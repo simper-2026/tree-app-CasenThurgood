@@ -12,21 +12,7 @@ public class BinaryTree
 	{
 
 	}
-
-	public void Insert(int value)
-	{
-		if (root == null)
-		{
-			root = new Node(value, null, null, 0);
-
-		}
-		else
-		{
-			root.InsertValue(value);
-			root = RebalanceTree(root);
-		}
-	}
-
+	
 	string InOrder()
 	{
 		return " ";
@@ -80,7 +66,7 @@ public class BinaryTree
 
 		if (node.Left != null)
 		{
-			result += $"{node.Value} --> {node.Left.Value}[{node.Left.Value} h:{node.Left.Height} d:{node.Left.Depth}]\n";
+			result += $"{node.Value} --> {node.Left.Value}[{node.Left.Value} h:{node.Left.Height}]\n";
 			links++;
 			result += ToMermaid(node.Left, ref links);
 			
@@ -96,7 +82,7 @@ public class BinaryTree
         
 		if (node.Right != null)
         {
-            result += $"{node.Value} --> {node.Right.Value}[{node.Right.Value} h:{node.Right.Height} d:{node.Right.Depth}]\n";
+            result += $"{node.Value} --> {node.Right.Value}[{node.Right.Value} h:{node.Right.Height}]\n";
             links++;
 			result += ToMermaid(node.Right, ref links);
         }
@@ -111,6 +97,19 @@ public class BinaryTree
 		return result;
 	}
 
+	public void Insert(int value)
+	{
+		if (root == null)
+		{
+			root = new Node(value, null, null, 0);
+		}
+		else
+		{
+			root.InsertValue(value);
+			root = RebalanceTree(root);
+		}
+	}
+
 	Node RebalanceTree(Node node)
 	{
 		if (node == null)
@@ -118,10 +117,6 @@ public class BinaryTree
 			return null;
 		}
 
-		if (node.Left == null && node.Right == null) 
-		{
-			return node;
-		}
 		int leftHeight;
 
 		if (node.Left != null)
@@ -145,6 +140,9 @@ public class BinaryTree
 			rightHeight = -1;
 		}
 
+		node.Height = 1 + Math.Max(leftHeight, rightHeight);
+
+		// Start to balance it
         if (leftHeight - rightHeight > 1) 
 		{
 			int leftRightHeight;
@@ -206,7 +204,6 @@ public class BinaryTree
 
             return RotateLeft(node);
 		}
-
 		return node;
 	}
 

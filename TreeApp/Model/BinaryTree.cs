@@ -13,9 +13,17 @@ public class BinaryTree
 
 	}
 	
-	string InOrder()
+	string InOrder(Node? node)
 	{
-		return " ";
+		if (node == null) 
+		{
+			return ""
+		}
+
+		string leftChildVal = InOrder(node.Left);
+		string rightChildVal = InOrder(node.Right);
+		
+		return $"{leftChildVal} {rightChildVal} ";
 	}
 
 	int Height()
